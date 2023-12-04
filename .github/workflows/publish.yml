@@ -2,7 +2,7 @@ name: Publish Graph
 
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '7 11 * * *'
 
 jobs:
   go:
