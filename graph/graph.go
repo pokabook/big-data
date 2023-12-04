@@ -256,6 +256,6 @@ func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.Tech
 		page.AddCharts(generatePie(category, techStacks))
 	}
 
-	f, _ := os.Create("graph.html")
+	f, _ := os.Create("index.html")
 	page.Render(f)
 }

@@ -67,6 +67,5 @@ func main() {
 	countedTechstacks := utils.CountTechstacks(companiesInfo)
 	topTechstacks := utils.FindMaxCountPerCategory(countedTechstacks)
 
-	//graph.GenerateBar(topTechstacks)
 	graph.GenerateGraph(topTechstacks, countedTechstacks)
 }
