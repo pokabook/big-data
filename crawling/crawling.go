@@ -10,22 +10,6 @@ import (
 	"time"
 )
 
-type CompanyTotalNum struct {
-	CompanyTotal int `json:"company_total"`
-}
-type Company struct {
-	CompanyId int `json:"company_id"`
-}
-
-type CompanyInfo struct {
-	TechstackList []Techstack `json:"techstack_list"`
-}
-
-type Techstack struct {
-	Name     string `json:"name"`
-	Category string `json:"category"`
-}
-
 var BaseUrl = "https://api.codenary.co.kr"
 
 var httpClient = &http.Client{
@@ -37,7 +21,7 @@ var httpClient = &http.Client{
 }
 
 func GetCompanyListNum() float64 {
-	var companyTotal CompanyTotalNum
+	var companyTotal utils.CompanyTotalNum
 	res, err := httpClient.Get(BaseUrl + "/company")
 	utils.CheckErr(err)
 	defer res.Body.Close()
@@ -48,8 +32,8 @@ func GetCompanyListNum() float64 {
 	return float64(companyTotal.CompanyTotal)
 }
 
-func GetCompanyList(pageNum int, companyListChannel chan<- []Company) {
-	var temp []Company
+func GetCompanyList(pageNum int, companyListChannel chan<- []utils.Company) {
+	var temp []utils.Company
 	res, err := httpClient.Get(BaseUrl + "/company/list?page=" + strconv.Itoa(pageNum))
 	utils.CheckErr(err)
 	defer res.Body.Close()
@@ -61,8 +45,8 @@ func GetCompanyList(pageNum int, companyListChannel chan<- []Company) {
 	companyListChannel <- temp
 }
 
-func GetCompanyInfo(companyId int, companyInfoChannel chan<- []Techstack) {
-	var temp CompanyInfo
+func GetCompanyInfo(companyId int, companyInfoChannel chan<- []utils.Techstack) {
+	var temp utils.CompanyInfo
 	res, err := httpClient.Get(BaseUrl + "/company/detail/" + strconv.Itoa(companyId))
 	utils.CheckErr(err)
 	defer res.Body.Close()

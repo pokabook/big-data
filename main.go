@@ -14,14 +14,14 @@ func main() {
 	fmt.Println("크롤링 시작")
 	start := time.Now()
 
-	var companies []crawling.Company
-	var companiesInfo []crawling.Techstack
+	var companies []utils.Company
+	var companiesInfo []utils.Techstack
 	var wg sync.WaitGroup
 
 	pages := int(math.Round(crawling.GetCompanyListNum() / 12))
 
 	wg.Add(pages)
-	companyListChannel := make(chan []crawling.Company)
+	companyListChannel := make(chan []utils.Company)
 
 	for i := 1; i <= pages; i++ {
 		go func(i int) {
@@ -40,7 +40,7 @@ func main() {
 
 	progressBar := utils.CreateProgressBar()
 
-	companyInfoChannel := make(chan []crawling.Techstack)
+	companyInfoChannel := make(chan []utils.Techstack)
 	wg.Add(len(companies))
 
 	for _, company := range companies {
@@ -64,9 +64,9 @@ func main() {
 	fmt.Println("데이터 개수 : ", len(companiesInfo))
 	fmt.Println("크롤링 완료 시간 : ", time.Since(start))
 
-	countedTechstacks := graph.CountTechstacks(companiesInfo)
-	topTechstacks := graph.FindMaxCountPerCategory(countedTechstacks)
+	countedTechstacks := utils.CountTechstacks(companiesInfo)
+	topTechstacks := utils.FindMaxCountPerCategory(countedTechstacks)
 
-	graph.GenerateBar(topTechstacks)
-	graph.GeneratePie(countedTechstacks)
+	//graph.GenerateBar(topTechstacks)
+	graph.GenerateGraph(topTechstacks, countedTechstacks)
 }
