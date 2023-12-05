@@ -45,7 +45,10 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         with:
           title: ":thumbsup::skin-tone-5: 크롤링 결과 :thumbsup::skin-tone-5:"
-          description:  ${{join(steps.go-run.outputs.*, '\n')}}
+          description: |
+            ${{ steps.go-run.outputs.NUMBER_OF_COMPANY }}
+            ${{ steps.go-run.outputs.NUMBER_OF_DATA }}
+            ${{ steps.go-run.outputs.TOTAL_TIME }}
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           color: 00FF00
 
