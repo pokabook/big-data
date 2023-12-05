@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	fmt.Println("크롤링 시작")
 	start := time.Now()
 
 	var companies []utils.Company
@@ -38,7 +37,7 @@ func main() {
 		companies = append(companies, companyList...)
 	}
 
-	progressBar := utils.CreateProgressBar()
+	//progressBar := utils.CreateProgressBar()
 
 	companyInfoChannel := make(chan []utils.Techstack)
 	wg.Add(len(companies))
@@ -56,13 +55,12 @@ func main() {
 	}()
 
 	for companyInfo := range companyInfoChannel {
-		progressBar.Add(len(companyInfo))
+		//progressBar.Add(len(companyInfo))
 		companiesInfo = append(companiesInfo, companyInfo...)
 	}
 
-	fmt.Println()
-	fmt.Println("데이터 개수 : ", len(companiesInfo))
-	fmt.Println("크롤링 완료 시간 : ", time.Since(start))
+	fmt.Println(`echo "NUMBER_OF_DATA=`, "데이터 수: ", len(companiesInfo), `" >> $GITHUB_OUTPUT`)
+	fmt.Println(`echo "TOTAL_TIME=`, "걸린 시간: ", time.Since(start), `" >> $GITHUB_OUTPUT`)
 
 	countedTechstacks := utils.CountTechstacks(companiesInfo)
 	topTechstacks := utils.FindMaxCountPerCategory(countedTechstacks)
