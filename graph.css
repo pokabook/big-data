@@ -3,7 +3,11 @@
     padding: 0;
 }
 
-.item {
-    padding-bottom: 50px;
-    background-color: black;
+.container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+body {
+    background-color: #000000;
 }
