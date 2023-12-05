@@ -193,7 +193,7 @@ func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.Tech
 
 	page := components.NewPage()
 	page.PageTitle = "기업별 사용 기술 스택 분석"
-	page.AddCharts(generateWordCloud(topTechstacks))
+	page.AddCharts(generateWordCloud(techstacks))
 	page.AddCharts(generateBar(topTechstacks))
 
 	for category, techStacks := range categoryData {
