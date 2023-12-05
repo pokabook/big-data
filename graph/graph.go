@@ -23,8 +23,8 @@ func generateBar(topTechstacks []utils.TechstackCount) *charts.Bar {
 			opts.Initialization{
 				Width:           "80%",
 				PageTitle:       "기술 스택 사용량",
-				BackgroundColor: "#000000",
 				Theme:           "dark",
+				BackgroundColor: "#000000",
 			},
 		),
 		charts.WithTooltipOpts(
@@ -112,20 +112,20 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 
 	pie.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title: fmt.Sprintf("%s 기술 스택 사용량", category),
+			Title: fmt.Sprintf("%s 기술 스택 사용량 (원)", category),
 			Left:  "60px",
 		}),
 		charts.WithInitializationOpts(
 			opts.Initialization{
 				PageTitle:       "기술 스택 사용량",
-				Width:           "80%",
-				BackgroundColor: "#000000",
+				Width:           "100%",
 				Theme:           "dark",
+				BackgroundColor: "#000000",
 			}),
 		charts.WithLegendOpts(opts.Legend{
 			Show:   true,
 			Orient: "vertical",
-			Left:   "70%",
+			Right:  "0",
 			Top:    "middle",
 		}),
 		charts.WithToolboxOpts(
@@ -154,7 +154,7 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 			}),
 			charts.WithPieChartOpts(opts.PieChart{
 				Radius: []string{"30%", "75%"},
-				Center: []string{"35%", "50%"},
+				Center: []string{"40%", "50%"},
 			}),
 			charts.WithSeriesAnimation(
 				true,
@@ -169,19 +169,102 @@ func generateWordCloud(techstacks []utils.TechstackCount) *charts.WordCloud {
 	wordCloud.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
 			Title: "기술 스택",
+			Left:  "60px",
 		}),
+		charts.WithToolboxOpts(
+			opts.Toolbox{
+				Show: true,
+				Feature: &opts.ToolBoxFeature{
+					SaveAsImage: &opts.ToolBoxFeatureSaveAsImage{
+						Show:  true,
+						Title: "Save as Png",
+					},
+				},
+			}),
 	)
-	
-	for _, techStack := range techstacks {
-		wordCloud.AddSeries(techStack.Category, []opts.WordCloudData{
-			{
-				Name:  techStack.Name,
-				Value: techStack.Count,
-			},
-		})
+
+	items := make([]opts.WordCloudData, 0)
+
+	for _, v := range techstacks {
+		items = append(items, opts.WordCloudData{Name: v.Name, Value: v.Count})
 	}
 
+	wordCloud.AddSeries("기술 스택", items)
+
 	return wordCloud
+}
+
+func generateTreeMap(category string, techStacks []utils.TechstackCount) *charts.TreeMap {
+
+	treeMap := charts.NewTreeMap()
+	treeMap.SetGlobalOptions(
+		charts.WithTitleOpts(opts.Title{
+			Title: fmt.Sprintf("%s 기술 스택 사용량 (트리 맵)", category),
+			Left:  "60px",
+		}),
+		charts.WithTooltipOpts(opts.Tooltip{
+			Show: true,
+			Formatter: opts.FuncOpts(`function (info) {
+				return ['<div class="tooltip-title">' + info.name + '</div>',
+				'Usage: ' + info.value,
+				].join('');
+			}`),
+		}),
+		charts.WithInitializationOpts(opts.Initialization{
+			PageTitle:       "기술 스택 사용량",
+			Width:           "100%",
+			Theme:           "dark",
+			BackgroundColor: "#000000",
+		}),
+		charts.WithToolboxOpts(
+			opts.Toolbox{
+				Show: true,
+				Feature: &opts.ToolBoxFeature{
+					SaveAsImage: &opts.ToolBoxFeatureSaveAsImage{
+						Show:  true,
+						Title: "Save as Png",
+					},
+				},
+			}),
+	)
+
+	nodes := make([]opts.TreeMapNode, len(techStacks))
+	for i, techStack := range techStacks {
+		nodes[i] = opts.TreeMapNode{
+			Name:  techStack.Name,
+			Value: techStack.Count,
+		}
+	}
+
+	treeMap.AddSeries(category, nodes).
+		SetSeriesOptions(
+			charts.WithTreeMapOpts(
+				opts.TreeMapChart{
+					Animation:  true,
+					UpperLabel: &opts.UpperLabel{Show: true},
+					Levels: &[]opts.TreeMapLevel{
+						{
+							ItemStyle: &opts.ItemStyle{
+								BorderColor: "#777",
+								BorderWidth: 1,
+								GapWidth:    1,
+							},
+						},
+						{
+							ColorSaturation: []float32{0.35, 0.5},
+							ItemStyle: &opts.ItemStyle{
+								GapWidth:              1,
+								BorderWidth:           0,
+								BorderColorSaturation: 0.6,
+							},
+						},
+					},
+				},
+			),
+			charts.WithLabelOpts(opts.Label{Show: true, Position: "inside", Color: "black", Formatter: "{b}: {c}"}),
+		)
+
+	return treeMap
 }
 
 func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.TechstackCount) {
@@ -197,6 +280,7 @@ func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.Tech
 
 	for category, techStacks := range categoryData {
 		page.AddCharts(generatePie(category, techStacks))
+		page.AddCharts(generateTreeMap(category, techStacks))
 	}
 
 	page.AddCustomizedCSSAssets("./css/graph.css")
