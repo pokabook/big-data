@@ -14,11 +14,14 @@ func generateBar(topTechstacks []utils.TechstackCount) *charts.Bar {
 	bar := charts.NewBar()
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(
-			opts.Title{Title: "기술 스택 사용량"},
+			opts.Title{
+				Title: "기술 스택 사용량",
+				Left:  "40px",
+			},
 		),
 		charts.WithInitializationOpts(
 			opts.Initialization{
-				Width:           "1600px",
+				Width:           "100%",
 				PageTitle:       "기술 스택 사용량",
 				BackgroundColor: "#000000",
 				Theme:           "dark",
@@ -39,8 +42,7 @@ func generateBar(topTechstacks []utils.TechstackCount) *charts.Bar {
 						Title: "Save as Png",
 					},
 				},
-			},
-		),
+			}),
 	)
 
 	sort.Slice(topTechstacks, func(i, j int) bool {
@@ -111,11 +113,12 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 	pie.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
 			Title: fmt.Sprintf("%s 기술 스택 사용량", category),
+			Left:  "40px",
 		}),
 		charts.WithInitializationOpts(
 			opts.Initialization{
 				PageTitle:       "기술 스택 사용량",
-				Width:           "1600px",
+				Width:           "100%",
 				BackgroundColor: "#000000",
 				Theme:           "dark",
 			}),
@@ -156,7 +159,6 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 				true,
 			),
 		)
-
 	return pie
 }
 
@@ -167,14 +169,14 @@ func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.Tech
 	}
 
 	page := components.NewPage()
+	page.PageTitle = "기업별 사용 기술 스택 분석"
 	page.AddCharts(generateBar(topTechstacks))
 
 	for category, techStacks := range categoryData {
 		page.AddCharts(generatePie(category, techStacks))
 	}
-
-	page.PageTitle = "기업별 사용 기술 스택 분석"
-
+	
+	page.AddCustomizedCSSAssets("css/graph.css")
 	f, _ := os.Create("index.html")
 	page.Render(f)
 }
