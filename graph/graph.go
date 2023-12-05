@@ -113,7 +113,7 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 	pie.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
 			Title: fmt.Sprintf("%s 기술 스택 사용량", category),
-			Left:  "40px",
+			Left:  "60px",
 		}),
 		charts.WithInitializationOpts(
 			opts.Initialization{
