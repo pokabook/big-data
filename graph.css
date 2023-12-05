@@ -2,3 +2,8 @@
     margin: 0;
     padding: 0;
 }
+
+.item {
+    padding-bottom: 50px;
+    background-color: black;
+}
