@@ -168,7 +168,7 @@ func generateWordCloud(techstacks []utils.TechstackCount) *charts.WordCloud {
 	wordCloud := charts.NewWordCloud()
 	wordCloud.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title: "기업별 사용 기술 스택 분석",
+			Title: "기술 스택",
 		}),
 	)
 
@@ -179,6 +179,8 @@ func generateWordCloud(techstacks []utils.TechstackCount) *charts.WordCloud {
 			Value: techStack.Count,
 		}
 	}
+
+	wordCloud.AddSeries("기술 스택", data)
 
 	return wordCloud
 }
