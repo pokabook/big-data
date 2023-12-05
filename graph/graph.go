@@ -5,9 +5,11 @@ import (
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/components"
 	"github.com/go-echarts/go-echarts/v2/opts"
+	"io"
 	"os"
 	"pokabook/big-data/utils"
 	"sort"
+	"strings"
 )
 
 func generateBar(topTechstacks []utils.TechstackCount) *charts.Bar {
@@ -15,14 +17,13 @@ func generateBar(topTechstacks []utils.TechstackCount) *charts.Bar {
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(
 			opts.Title{
-				Title:  "기술 스택 사용량",
-				Left:   "60px",
-				Bottom: "60px",
+				Title: "기술 스택 사용량",
+				Left:  "60px",
 			},
 		),
 		charts.WithInitializationOpts(
 			opts.Initialization{
-				Width:           "100%",
+				Width:           "80%",
 				PageTitle:       "기술 스택 사용량",
 				BackgroundColor: "#000000",
 				Theme:           "dark",
@@ -113,14 +114,13 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 
 	pie.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title:  fmt.Sprintf("%s 기술 스택 사용량", category),
-			Left:   "60px",
-			Bottom: "60px",
+			Title: fmt.Sprintf("%s 기술 스택 사용량", category),
+			Left:  "60px",
 		}),
 		charts.WithInitializationOpts(
 			opts.Initialization{
 				PageTitle:       "기술 스택 사용량",
-				Width:           "100%",
+				Width:           "80%",
 				BackgroundColor: "#000000",
 				Theme:           "dark",
 			}),
@@ -179,7 +179,29 @@ func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.Tech
 		page.AddCharts(generatePie(category, techStacks))
 	}
 
-	page.AddCustomizedCSSAssets("/big-data/graph.css")
+	page.AddCustomizedCSSAssets("/css/graph.css")
 	f, _ := os.Create("index.html")
 	page.Render(f)
+
+	file, err := os.OpenFile("index.html", os.O_RDWR, 0644)
+	utils.CheckErr(err)
+	defer file.Close()
+
+	bytes, err := io.ReadAll(file)
+	utils.CheckErr(err)
+	html := string(bytes)
+
+	css := `
+		<style>
+		body {
+			background-color: #000000;
+		}
+		</style>
+		`
+	html = strings.Replace(html, "<head>", "<head>"+css, 1)
+	_, err = file.Seek(0, 0)
+	utils.CheckErr(err)
+	_, err = file.WriteString(html)
+	utils.CheckErr(err)
+
 }
