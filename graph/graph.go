@@ -15,8 +15,9 @@ func generateBar(topTechstacks []utils.TechstackCount) *charts.Bar {
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(
 			opts.Title{
-				Title: "기술 스택 사용량",
-				Left:  "40px",
+				Title:  "기술 스택 사용량",
+				Left:   "60px",
+				Bottom: "60px",
 			},
 		),
 		charts.WithInitializationOpts(
@@ -112,8 +113,9 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 
 	pie.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title: fmt.Sprintf("%s 기술 스택 사용량", category),
-			Left:  "60px",
+			Title:  fmt.Sprintf("%s 기술 스택 사용량", category),
+			Left:   "60px",
+			Bottom: "60px",
 		}),
 		charts.WithInitializationOpts(
 			opts.Initialization{
@@ -142,7 +144,7 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 			opts.Tooltip{
 				Show:      true,
 				Trigger:   "item",
-				Formatter: "{b} : {c} ({d}%)",
+				Formatter: "{b} : {d}%",
 			}),
 	)
 
