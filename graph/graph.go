@@ -95,7 +95,7 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 
 	for _, techStack := range techStacks {
 		percentage := float64(techStack.Count) / float64(total) * 100
-		if percentage <= 1 {
+		if percentage <= 2 {
 			others += percentage
 		} else {
 			items = append(items, opts.PieData{
