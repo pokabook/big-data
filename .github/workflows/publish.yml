@@ -19,6 +19,7 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         with:
           title: "🚀 크롤링 시작 🚀"
+          status: ${{ job.status }}
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           color: 00FF00
       - name: Checkout
@@ -50,7 +51,6 @@ jobs:
           mv ./css/graph.css ./public/css/
 
       - name: Discord Notification
-        need:
         uses: sarisia/actions-status-discord@v1
         with:
           title: ":thumbsup::skin-tone-5: **크롤링 결과** :thumbsup::skin-tone-5:"
