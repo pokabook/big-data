@@ -140,8 +140,9 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 			}),
 		charts.WithTooltipOpts(
 			opts.Tooltip{
-				Show:    true,
-				Trigger: "item",
+				Show:      true,
+				Trigger:   "item",
+				Formatter: "{b} : {c} ({d}%)",
 			}),
 	)
 
