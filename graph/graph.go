@@ -175,7 +175,7 @@ func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.Tech
 	for category, techStacks := range categoryData {
 		page.AddCharts(generatePie(category, techStacks))
 	}
-	
+
 	page.AddCustomizedCSSAssets("css/graph.css")
 	f, _ := os.Create("index.html")
 	page.Render(f)
