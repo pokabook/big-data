@@ -166,11 +166,11 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 func generateWordCloud(techstacks []utils.TechstackCount) *charts.WordCloud {
 
 	wordCloud := charts.NewWordCloud()
-	/*wordCloud.SetGlobalOptions(
+	wordCloud.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
 			Title: "기업별 사용 기술 스택 분석",
 		}),
-	)*/
+	)
 
 	data := make([]opts.WordCloudData, len(techstacks))
 	for i, techStack := range techstacks {
@@ -191,7 +191,7 @@ func GenerateGraph(topTechstacks []utils.TechstackCount, techstacks []utils.Tech
 
 	page := components.NewPage()
 	page.PageTitle = "기업별 사용 기술 스택 분석"
-	page.AddCharts(generateWordCloud(topTechstacks))
+	page.AddCharts(generateWordCloud())
 	page.AddCharts(generateBar(topTechstacks))
 
 	for category, techStacks := range categoryData {
