@@ -173,14 +173,14 @@ func generateWordCloud(techstacks []utils.TechstackCount) *charts.WordCloud {
 	)
 
 	data := make([]opts.WordCloudData, len(techstacks))
-	for i, techStack := range techstacks {
-		data[i] = opts.WordCloudData{
-			Name:  techStack.Name,
-			Value: techStack.Count,
-		}
+	for _, techStack := range techstacks {
+		wordCloud.AddSeries(techStack.Category, []opts.WordCloudData{
+			{
+				Name:  techStack.Name,
+				Value: techStack.Count,
+			},
+		})
 	}
-
-	wordCloud.AddSeries("기술 스택", data)
 
 	return wordCloud
 }
