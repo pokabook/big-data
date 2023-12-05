@@ -28,7 +28,7 @@ func GetCompanyListNum() float64 {
 	bodyBytes, err := io.ReadAll(res.Body)
 	utils.CheckErr(err)
 	err = json.Unmarshal(bodyBytes, &companyTotal)
-	fmt.Println(`echo "NUMBER_OF_COMPANY=`, "기업 수: ", companyTotal.CompanyTotal, `" >> $GITHUB_OUTPUT`)
+	fmt.Println("NUMBER_OF_COMPANY=", companyTotal.CompanyTotal)
 	return float64(companyTotal.CompanyTotal)
 }
 

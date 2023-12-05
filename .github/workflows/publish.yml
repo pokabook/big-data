@@ -32,9 +32,17 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: run
-        id: go-run
+        id: go_run
         run: |
-          go run . 
+          go run . | while read line; do
+            NUMBER_OF_COMPANY=$grep 'NUMBER_OF_COMPANY=' $line | cut -d '=' -f 2)
+            NUMBER_OF_DATA=$grep 'NUMBER_OF_DATA=' $line | cut -d '=' -f 2)
+            TOTAL_TIME=$grep 'TOTAL_TIME=' $line | cut -d '=' -f 2)
+          done
+          
+          echo number_of_company=$NUMBER_OF_COMPANY >> $GITHUB_OUTPUT
+          echo number_of_data=$NUMBER_OF_DATA >> $GITHUB_OUTPUT
+          echo total_time=$TOTAL_TIME
           
           mkdir ./public
           mkdir ./public/css
@@ -42,9 +50,10 @@ jobs:
           mv ./css/graph.css ./public/css/
 
       - name: Discord Notification
+        need:
         uses: sarisia/actions-status-discord@v1
         with:
-          title: ":thumbsup::skin-tone-5: 크롤링 결과 :thumbsup::skin-tone-5:"
+          title: ":thumbsup::skin-tone-5: **크롤링 결과** :thumbsup::skin-tone-5:"
           description: |
             ${{ steps.go-run.outputs.NUMBER_OF_COMPANY }}
             ${{ steps.go-run.outputs.NUMBER_OF_DATA }}

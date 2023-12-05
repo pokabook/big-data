@@ -59,8 +59,8 @@ func main() {
 		companiesInfo = append(companiesInfo, companyInfo...)
 	}
 
-	fmt.Println(`echo "NUMBER_OF_DATA=`, "데이터 수: ", len(companiesInfo), `" >> $GITHUB_OUTPUT`)
-	fmt.Println(`echo "TOTAL_TIME=`, "걸린 시간: ", time.Since(start), `" >> $GITHUB_OUTPUT`)
+	fmt.Println("NUMBER_OF_DATA=", len(companiesInfo))
+	fmt.Println("TOTAL_TIME=", time.Since(start))
 
 	countedTechstacks := utils.CountTechstacks(companiesInfo)
 	topTechstacks := utils.FindMaxCountPerCategory(countedTechstacks)
