@@ -141,7 +141,7 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 		charts.WithTooltipOpts(
 			opts.Tooltip{
 				Show:    true,
-				Trigger: "axis",
+				Trigger: "item",
 			}),
 	)
 
