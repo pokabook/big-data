@@ -29,8 +29,9 @@ jobs:
         run: |
           go run .
           mkdir ./public
+          mkdir ./public/css
           mv ./index.html ./public/
-          mv ./css/graph.css ./public/
+          mv ./css/graph.css ./public/css/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
