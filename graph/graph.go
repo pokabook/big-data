@@ -125,7 +125,7 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 		charts.WithLegendOpts(opts.Legend{
 			Show:   true,
 			Orient: "vertical",
-			Right:  "0",
+			Right:  "10",
 			Top:    "middle",
 		}),
 		charts.WithToolboxOpts(
@@ -154,7 +154,7 @@ func generatePie(category string, techStacks []utils.TechstackCount) *charts.Pie
 			}),
 			charts.WithPieChartOpts(opts.PieChart{
 				Radius: []string{"30%", "75%"},
-				Center: []string{"40%", "50%"},
+				Center: []string{"45%", "55%"},
 			}),
 			charts.WithSeriesAnimation(
 				true,
@@ -170,6 +170,10 @@ func generateWordCloud(techstacks []utils.TechstackCount) *charts.WordCloud {
 		charts.WithTitleOpts(opts.Title{
 			Title: "기술 스택",
 			Left:  "60px",
+		}),
+		charts.WithInitializationOpts(opts.Initialization{
+			Theme:           "dark",
+			BackgroundColor: "#000000",
 		}),
 		charts.WithToolboxOpts(
 			opts.Toolbox{
