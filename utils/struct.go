@@ -4,7 +4,7 @@ type CompanyTotalNum struct {
 	CompanyTotal int `json:"company_total"`
 }
 type Company struct {
-	CompanyId int `json:"company_id"`
+	Id int `json:"id"`
 }
 
 type CompanyInfo struct {
