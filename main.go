@@ -46,7 +46,7 @@ func main() {
 		go func(companyId int) {
 			crawling.GetCompanyInfo(companyId, companyInfoChannel)
 			wg.Done()
-		}(company.CompanyId)
+		}(company.Id)
 	}
 
 	go func() {
