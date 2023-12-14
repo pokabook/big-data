@@ -32,8 +32,8 @@ func GetCompanyListNum() float64 {
 	return float64(companyTotal.CompanyTotal)
 }
 
-func GetCompanyList(pageNum int, companyListChannel chan<- []utils.Company) {
-	var temp []utils.Company
+func GetCompanyList(pageNum int, companyListChannel chan<- []utils.CompanyId) {
+	var temp utils.CompanyIds
 	res, err := httpClient.Get(BaseUrl + "/company/list?page=" + strconv.Itoa(pageNum))
 	utils.CheckErr(err)
 	defer res.Body.Close()
@@ -42,7 +42,7 @@ func GetCompanyList(pageNum int, companyListChannel chan<- []utils.Company) {
 
 	err = json.Unmarshal(bodyBytes, &temp)
 	utils.CheckErr(err)
-	companyListChannel <- temp
+	companyListChannel <- temp.Companies
 }
 
 func GetCompanyInfo(companyId int, companyInfoChannel chan<- []utils.Techstack) {

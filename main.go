@@ -13,14 +13,14 @@ import (
 func main() {
 	start := time.Now()
 
-	var companies []utils.Company
+	var companies []utils.CompanyId
 	var companiesInfo []utils.Techstack
 	var wg sync.WaitGroup
 
 	pages := int(math.Round(crawling.GetCompanyListNum() / 12))
 
 	wg.Add(pages)
-	companyListChannel := make(chan []utils.Company)
+	companyListChannel := make(chan []utils.CompanyId)
 
 	for i := 1; i <= pages; i++ {
 		go func(i int) {
@@ -46,7 +46,7 @@ func main() {
 		go func(companyId int) {
 			crawling.GetCompanyInfo(companyId, companyInfoChannel)
 			wg.Done()
-		}(company.Id)
+		}(company.ID)
 	}
 
 	go func() {

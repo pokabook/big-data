@@ -3,8 +3,11 @@ package utils
 type CompanyTotalNum struct {
 	CompanyTotal int `json:"company_total"`
 }
-type Company struct {
-	Id int `json:"id"`
+type CompanyIds struct {
+	Companies []CompanyId `json:"companies"`
+}
+type CompanyId struct {
+	ID int `json:"id"`
 }
 
 type CompanyInfo struct {
